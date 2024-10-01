@@ -1,0 +1,113 @@
+import java.util.ArrayList;
+import java.util.List;
+
+// Base class for different booking types
+abstract class Booking {
+    protected String bookingId;
+    protected String customerName;
+    protected double price;
+
+    public Booking(String bookingId, String customerName, double price) {
+        this.bookingId = bookingId;
+        this.customerName = customerName;
+        this.price = price;
+    }
+
+    public abstract void confirmBooking();
+}
+
+// FlightBooking class
+class FlightBooking extends Booking {
+    private String flightNumber;
+    private String departure;
+    private String destination;
+
+    public FlightBooking(String bookingId, String customerName, double price, String flightNumber, String departure, String destination) {
+        super(bookingId, customerName, price);
+        this.flightNumber = flightNumber;
+        this.departure = departure;
+        this.destination = destination;
+    }
+
+    @Override
+    public void confirmBooking() {
+        System.out.println("Flight Booking confirmed: " + flightNumber + " from " + departure + " to " + destination);
+    }
+}
+
+// HotelBooking class
+class HotelBooking extends Booking {
+    private String hotelName;
+    private int nights;
+
+    public HotelBooking(String bookingId, String customerName, double price, String hotelName, int nights) {
+        super(bookingId, customerName, price);
+        this.hotelName = hotelName;
+        this.nights = nights;
+    }
+
+    @Override
+    public void confirmBooking() {
+        System.out.println("Hotel Booking confirmed: " + hotelName + " for " + nights + " nights");
+    }
+}
+
+// TransportationBooking class
+class TransportationBooking extends Booking {
+    private String transportType;
+    private String pickupLocation;
+    private String dropoffLocation;
+
+    public TransportationBooking(String bookingId, String customerName, double price, String transportType, String pickupLocation, String dropoffLocation) {
+        super(bookingId, customerName, price);
+        this.transportType = transportType;
+        this.pickupLocation = pickupLocation;
+        this.dropoffLocation = dropoffLocation;
+    }
+
+    @Override
+    public void confirmBooking() {
+        System.out.println("Transportation Booking confirmed: " + transportType + " from " + pickupLocation + " to " + dropoffLocation);
+    }
+}
+
+// TravelBookingSystem class that manages all bookings
+class TravelBookingSystem {
+    private List<Booking> bookings;
+
+    public TravelBookingSystem() {
+        bookings = new ArrayList<>();
+    }
+
+    // Add booking to the system
+    public void addBooking(Booking booking) {
+        bookings.add(booking);
+    }
+
+    // Confirm all bookings
+    public void confirmAllBookings() {
+        for (Booking booking : bookings) {
+            booking.confirmBooking();
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a travel booking system instance
+        TravelBookingSystem bookingSystem = new TravelBookingSystem();
+
+        // Create different types of bookings
+        FlightBooking flight = new FlightBooking("FB001", "John Doe", 500, "AA123", "New York", "London");
+        HotelBooking hotel = new HotelBooking("HB001", "John Doe", 300, "The Grand Hotel", 5);
+        TransportationBooking transport = new TransportationBooking("TB001", "John Doe", 50, "Taxi", "Airport", "Hotel");
+
+        // Add bookings to the system
+        bookingSystem.addBooking(flight);
+        bookingSystem.addBooking(hotel);
+        bookingSystem.addBooking(transport);
+
+        // Confirm all bookings
+        bookingSystem.confirmAllBookings();
+    }
+}
